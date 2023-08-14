@@ -1,11 +1,11 @@
 import { BaseNode } from "../_general/baseNode.js";
-import { BooleanOperatorType, NumberOperatorType, TextOperatorType, VariableType, Vector2OperatorType } from "../_general/types.js";
+import { BooleanOperatorType, ComparatorOperatorType, NumberOperatorType, TextOperatorType, VariableType, Vector2OperatorType } from "../_general/types.js";
 import { Vector2 } from "../_general/vector2.js";
 import { VariableNode } from "../variables/_variableNode.js";
 
 declare type leftParam = VariableNode | OperatorNode
 declare type rightParam = VariableNode | OperatorNode | undefined
-declare type methodParam = TextOperatorType | BooleanOperatorType | Vector2OperatorType | NumberOperatorType
+declare type methodParam = TextOperatorType | BooleanOperatorType | Vector2OperatorType | NumberOperatorType | ComparatorOperatorType
 
 export abstract class OperatorNode extends BaseNode {
   public left: leftParam

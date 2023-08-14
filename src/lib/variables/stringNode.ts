@@ -1,11 +1,14 @@
 import { Vector2 } from "../_general/vector2.js";
+import { OperatorNode } from "../operators/_operatorNode.js";
+import { TextOperatorNode } from "../operators/text.js";
 import { VariablePool } from "../pool/variable.js";
-import { VariableNode } from "./_variableNode.js";
+import { VariableNode, getType } from "./_variableNode.js";
 
 export class TextNode extends VariableNode {
-  constructor(label: string, value: string = "", position: Vector2 = Vector2.ZERO) {
+  constructor(label: string, value: string | OperatorNode, position: Vector2 = Vector2.ZERO) {
     super(label, "text", position);
-    this.value = value;
+    if(typeof value == "string") this.value = value as string
+    else this.value = (value as OperatorNode).result!.toString()
     if(label !== "") VariablePool.instance.add(label, this)
   }
 

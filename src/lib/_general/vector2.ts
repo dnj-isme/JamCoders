@@ -13,7 +13,11 @@ export class Vector2 {
   get inJSON(): string {return JSON.stringify(this.object)}
 
   public toString(): string {
-    return this.inJSON
+    return `(${this.x.toFixed(2)}, ${this.y.toFixed(2)})`
+  }
+
+  public equal(target: Vector2): boolean {
+    return this.x == target.x && this.y == target.y
   }
 
   /**

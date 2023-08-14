@@ -1,3 +1,4 @@
+import { NodePool } from "../pool/node.js";
 import { Vector2 } from "./vector2.js";
 
 export abstract class BaseNode {
@@ -9,6 +10,7 @@ export abstract class BaseNode {
   constructor(position: Vector2 = Vector2.ZERO) {
     this.position = position;
     this._id = crypto.randomUUID()
+    NodePool.instance.add(this.id, this)
   }
 
   abstract get object(): object;

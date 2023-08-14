@@ -1,14 +1,15 @@
 import { LoggingPool } from "../pool/log.js";
 import { TextOperatorType, VariableType } from "../_general/types.js";
 import { Vector2 } from "../_general/vector2.js";
-import { getType } from "../variables/_variableNode.js";
+import { VariableNode, getType } from "../variables/_variableNode.js";
 import { NumberNode } from "../variables/numberNode.js";
 import { TextNode } from "../variables/stringNode.js";
 import { OperatorNode } from "./_operatorNode.js";
 import { NumberOperatorNode } from "./number.js";
+import { Vector2Node } from "../variables/vector2Node.js";
 
-type LeftParam = TextNode | TextOperatorNode;
-type RightParam = TextNode | NumberNode | TextOperatorNode | NumberOperatorNode | undefined;
+type LeftParam = VariableNode | OperatorNode;
+type RightParam = VariableNode | OperatorNode | undefined;
 
 export class TextOperatorNode extends OperatorNode {
   constructor(
@@ -64,37 +65,31 @@ export class TextOperatorNode extends OperatorNode {
   }
 
   private getLeftValue(): string {
-    if (this.left instanceof TextNode) {
-      return this.left.value as string;
+    if (this.left instanceof VariableNode) {
+      return this.left.value!.toString()
     }
-    if (this.left instanceof TextOperatorNode) {
-      const result = this.left.result;
-      if (getType(result) !== "text") {
-        LoggingPool.instance.add(this.id, `the left operand with type "${getType(result)}}" will be converted to string`, "warning");
-      }
-      return result!.toString();
+    else if (this.left instanceof OperatorNode) {
+      return this.left.result!.toString()
     }
     LoggingPool.instance.add(this.id, "invalid type at left operand", "error")
     return ""
   }
 
   private getRightValue(): number | string | undefined {
-    if (this.right instanceof TextNode) return this.right.value as string;
-    if (this.right instanceof NumberNode) return this.right.value as number;
-    if (this.right instanceof NumberOperatorNode) return this.right.result as number;
-    if (this.right instanceof TextOperatorNode) {
-      const result = this.right.result;
-      switch(getType(result)) {
-        case "undefined":
-          return undefined
-        case "number":
-          return result as number
-        case "text":
-          return result as string
-        default:
-          LoggingPool.instance.add(this.id, `the right operand with type "${getType(result)}" will be converted to string`, "warning");
-          return result?.toString();
+    if (this.right instanceof VariableNode) {
+      if(this.right instanceof NumberNode) {
+        return this.right.value as number
       }
+      return this.right.value!.toString()
+    }
+    else if (this.right instanceof OperatorNode) {
+      if(this.right instanceof NumberOperatorNode) {
+        return this.right.result as number
+      }
+      return this.right.result!.toString()
+    }
+    else if (this.right == undefined) {
+      return undefined
     }
     LoggingPool.instance.add(this.id, "invalid type at right operand", "error")
     return ""

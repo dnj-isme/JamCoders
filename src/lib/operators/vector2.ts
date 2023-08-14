@@ -11,7 +11,6 @@ declare type leftParam = Vector2Node | Vector2OperatorNode
 declare type rightParam = Vector2Node | NumberNode | NumberOperatorNode | Vector2OperatorNode | undefined
 declare type methodParam = Vector2OperatorType
 
-// export declare type Vector2OperatorType = "add" | "substract" | "multiply" | "divide" | "magnitude" | "normalize" | "dot"
 export class Vector2OperatorNode extends OperatorNode {
   constructor(left: leftParam, right: rightParam, method: methodParam, position: Vector2 = Vector2.ZERO) {
     super(left, right, method, position)
