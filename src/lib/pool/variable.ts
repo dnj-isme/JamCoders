@@ -12,10 +12,24 @@ export class VariablePool {
   }
 
   public static report() {
-    const variables = VariablePool.instance.collection
+    const variables = VariablePool.instance.variables
 
+    if(variables.length == 0) {
+      console.log("There are no variables")
+      return
+    }
+
+    console.log("Beginning of Variable Report")
     for(let i = 0; i < variables.length; i++) {
       console.log(variables[i])
+    }
+    console.log("End of Variable Report")
+  }
+  
+  static refresh() {
+    const variables = this.instance.variables
+    for(let i = 0; i < variables.length; i++) {
+      variables[i].refresh()
     }
   }
 
@@ -54,12 +68,6 @@ export class VariablePool {
   get variables() {
     return Array.from(this.variableList, ([key, value], idx) => {
       return value
-    })
-  }
-
-  get collection() {
-    return Array.from(this.variableList, ([label, variable], _) => {
-      return {label, variable}
     })
   }
 }

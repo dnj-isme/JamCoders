@@ -51,6 +51,8 @@ export class NumberOperatorNode extends OperatorNode {
         return Math.pow(l, r)
       case "root":
         return Math.pow(l, 1/r)
+      case "round":
+        return r > 0 ? parseFloat(l.toFixed(r)) : parseInt(l.toFixed(r))
       default:
         LoggingPool.instance.add(this.id, `Unsupported method "${this.method}" for NumberOperatorNode`, "error")
         return 0
@@ -58,6 +60,7 @@ export class NumberOperatorNode extends OperatorNode {
   }
   get object(): object {
     return {
+      _id: this.id,
       position: this.position.object,
       left: this.left.object,
       right: this.right!.object,

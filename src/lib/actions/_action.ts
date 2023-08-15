@@ -19,13 +19,4 @@ export abstract class ActionNode extends BaseNode {
     this.next?.execute()
   }
   protected abstract action(): void;
-
-  get object(): object {
-    return {
-      id: this.id,
-      type: this.type,
-      position: this.position,
-      next: this.next?.id
-    }
-  }
 }

@@ -7,14 +7,15 @@ import { VariableNode, getType } from "./_variableNode.js";
 export class TextNode extends VariableNode {
   constructor(label: string, value: string | OperatorNode, position: Vector2 = Vector2.ZERO) {
     super(label, "text", position);
-    if(typeof value == "string") this.value = value as string
-    else this.value = (value as OperatorNode).result!.toString()
+    if(typeof value == "string") this.value = this._defaultValue = value as string
+    else this.value = this._defaultValue = (value as OperatorNode).result!.toString()
     if(label !== "") VariablePool.instance.add(label, this)
   }
 
   get object(): object {
     return {
-      _label: this.label,
+      _id: this.id,
+      label: this.label,
       position: this.position,
       value: this.value as string,
       type: this.type

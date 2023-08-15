@@ -66,6 +66,7 @@ export class BooleanOperatorNode extends OperatorNode {
   
   get object(): object {
     return {
+      _id: this.id,
       position: this.position.object,
       left: this.left.object,
       right: this.right?.object,

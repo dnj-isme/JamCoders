@@ -8,11 +8,11 @@ export class NumberNode extends VariableNode {
   constructor(label: string, value: number | NumberOperatorNode, position: Vector2 = Vector2.ZERO) {
     super(label, "number", position);
     
-    if(typeof value == "number") this.value = value as number
-    else if(value instanceof NumberOperatorNode) this.value = (value as NumberOperatorNode).result
+    if(typeof value == "number") this.value = this._defaultValue = value as number
+    else if(value instanceof NumberOperatorNode) this.value = this._defaultValue = (value as NumberOperatorNode).result
     else {
       LoggingPool.instance.add(this.id, `Invalid value ${value}`, "error")
-      this.value = 0
+      this.value = this._defaultValue = 0
     }
 
     if(label !== "") VariablePool.instance.add(label, this)
@@ -20,7 +20,8 @@ export class NumberNode extends VariableNode {
 
   get object(): object {
     return {
-      _label: this.label,
+      _id: this.id,
+      label: this.label,
       position: this.position,
       value: this.value as number,
       type: this.type

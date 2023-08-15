@@ -6,6 +6,7 @@ export abstract class VariableNode extends BaseNode {
   public value: VariableType
   private _type: string;
   private _label: string;
+  protected _defaultValue: VariableType
 
   public get type(): string {return this._type}
 
@@ -16,6 +17,11 @@ export abstract class VariableNode extends BaseNode {
     this._label = label;
     this._type = type;
     this.value = undefined
+    this._defaultValue = undefined
+  }
+
+  refresh() {
+    this.value = this._defaultValue
   }
 }
 

@@ -2,12 +2,20 @@ import { LogType } from "../_general/types.js";
 
 export class LoggingPool {
   private static _instance: LoggingPool;
-
+  
   public static get instance() {
     if(this._instance == null) this._instance = new LoggingPool()
     return this._instance;
   }
-
+  
+  public static getUserLogs(): Log[] {
+    return this.instance.messages.filter(data => data.type == "log")
+  }
+  
+  static clear() {
+    this.instance.clear()
+  }
+  
   public static report() {
     const messages: Log[] = this.instance.messages;
 
@@ -22,12 +30,18 @@ export class LoggingPool {
       switch(msg.type) {
         case "error":
           console.error(msg)
+          break
         case "debug":
           console.log(msg)
+          break
         case "warning":
           console.warn(msg)
+          break
         case "dev":
           console.debug(msg)
+          break
+        case "log":
+          console.log(msg)
       }
     }
     console.log("End of Log Report")
